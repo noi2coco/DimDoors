@@ -1,5 +1,9 @@
 package org.dimdev.dimdoors.shared.rifts;
 
+import com.flowpowered.math.imaginary.Quaternionf;
+import com.flowpowered.math.matrix.Matrix3f;
+import com.flowpowered.math.vector.Vector3d;
+import com.flowpowered.math.vector.Vector3f;
 import org.dimdev.ddutils.nbt.NBTUtils;
 import org.dimdev.annotatednbt.Saved;
 import org.dimdev.annotatednbt.NBTSerializable;
@@ -313,7 +317,9 @@ import java.util.*;
         float newYaw = entity.rotationYaw;
         float newPitch = entity.rotationYaw;
         if (!preserveRotation) {
-            newYaw = yaw;
+            float diff = newYaw - yaw;
+
+            newYaw += diff;
             newPitch = pitch;
         }
         TeleportUtils.teleport(entity, new Location(world, pos), newYaw, newPitch);
