@@ -243,23 +243,36 @@ public final class SchematicConverter {
     }
 
     private static ResourceLocation translateId(String id) { // TODO
+        ResourceLocation location;
         switch (id) {
             case "Sign":
-                return TileEntity.getKey(TileEntitySign.class);
+                location = TileEntity.getKey(TileEntitySign.class);
+                break;
             case "Music":
-                return TileEntity.getKey(TileEntityNote.class);
+                location = TileEntity.getKey(TileEntityNote.class);
+                break;
             case "Trap":
-                return TileEntity.getKey(TileEntityDispenser.class);
+                location = TileEntity.getKey(TileEntityDispenser.class);
+                break;
             case "Comparator":
-                return TileEntity.getKey(TileEntityComparator.class);
+                location = TileEntity.getKey(TileEntityComparator.class);
+                break;
             case "Hopper":
-                return TileEntity.getKey(TileEntityHopper.class);
+                location = TileEntity.getKey(TileEntityHopper.class);
+                break;
             case "Furnace":
-                return TileEntity.getKey(TileEntityFurnace.class);
+                location = TileEntity.getKey(TileEntityFurnace.class);
+                break;
             case "Chest":
-                return TileEntity.getKey(TileEntityChest.class);
+                location = TileEntity.getKey(TileEntityChest.class);
+                break;
             default:
                 throw new RuntimeException("Tile entity ID " + id + " not supported by conversion code");
         }
+        if (location == null) {
+            DimDoors.log.error("Tile entity ID " + id + " is returning a null resource location.");
+            location = new ResourceLocation(id.toLowerCase());
+        }        
+        return location;
     }
 }
