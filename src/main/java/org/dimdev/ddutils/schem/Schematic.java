@@ -352,7 +352,7 @@ public class Schematic {
                     tileEntity.setPos(pos);
                     tileEntity.markDirty();
                 } else {
-                    throw new RuntimeException("Schematic contained TileEntity " + schematicTileEntityId + " at " + pos + " but the TileEntity of that block (" + world.getBlockState(pos) + ") must be " + blockTileEntityId);
+                    throw new RuntimeException("Schematic contained TileEntity " + schematicTileEntityId + " at " + pos + " but the TileEntity of that block (" + world.getBlockState(pos) + ") is " + blockTileEntityId);
                 }
             } else {
                 throw new RuntimeException("Schematic contained TileEntity info at " + pos + " but the block there (" + world.getBlockState(pos) + ") has no TileEntity.");

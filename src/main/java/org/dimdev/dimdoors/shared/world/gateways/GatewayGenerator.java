@@ -16,6 +16,7 @@ import org.dimdev.pocketlib.WorldProviderPocket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import org.dimdev.ddutils.math.MathUtils;
 
 public class GatewayGenerator implements IWorldGenerator {
     private static final int CLUSTER_GROWTH_CHANCE = 80;
@@ -24,6 +25,7 @@ public class GatewayGenerator implements IWorldGenerator {
     private static final int MAX_RIFT_Y = 240;
     private static final int CHUNK_LENGTH = 16;
     private static final int MAX_GATEWAY_GENERATION_ATTEMPTS = 10;
+    private static final int GATEWAY_GEN_BASE_SEED = 42139; //semi-random prime number
 
     private ArrayList<BaseGateway> gateways;
     private BaseGateway defaultGateway;
@@ -52,6 +54,7 @@ public class GatewayGenerator implements IWorldGenerator {
         // Check if we're allowed to generate rift clusters in this dimension.
         // If so, randomly decide whether to one.
         boolean clusterGenerated = false;
+        random.setSeed(MathUtils.mergeSeeds((int) world.getSeed(), chunkX, chunkZ, GATEWAY_GEN_BASE_SEED));
         if (Arrays.binarySearch(ModConfig.world.clusterDimBlacklist, world.provider.getDimensionType().getId()) == -1) {
             double clusterGenChance = ModConfig.world.clusterGenChance;
             while (clusterGenChance > 0.0) {

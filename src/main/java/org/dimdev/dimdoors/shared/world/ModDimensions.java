@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import org.dimdev.dimdoors.shared.ModConfig;
 import org.dimdev.dimdoors.shared.world.limbo.WorldProviderLimbo;
+import org.dimdev.dimdoors.shared.world.mazeworld.WorldProviderMaze;
 import org.dimdev.dimdoors.shared.world.pocketdimension.WorldProviderDungeonPocket;
 import org.dimdev.dimdoors.shared.world.pocketdimension.WorldProviderPersonalPocket;
 import org.dimdev.dimdoors.shared.world.pocketdimension.WorldProviderPublicPocket;
@@ -18,12 +19,15 @@ public final class ModDimensions {
     public static final DimensionType PRIVATE = DimensionType.register("private_pockets", "_private", 685, WorldProviderPersonalPocket.class, false);
     public static final DimensionType PUBLIC = DimensionType.register("public_pockets", "_public", 686, WorldProviderPublicPocket.class, false);
     public static final DimensionType DUNGEON = DimensionType.register("dungeon_pockets", "_dungeon", 687, WorldProviderDungeonPocket.class, false);
+    //The dungeonMakingDim has dimID 688, so for consistency, we're skipping DymensionType ID 688
+    public static final DimensionType MAZE = DimensionType.register("eternal_maze", "_maze", 689, WorldProviderMaze.class, false);
 
     @Getter private static int limboDim;
     @Getter private static int privateDim;
     @Getter private static int publicDim;
     @Getter private static int dungeonDim;
     @Getter private static int dungeonMakingDim;
+    @Getter private static int mazeDim;
 
     @SuppressWarnings("UnusedAssignment")
     public static void registerDimensions() {
@@ -34,14 +38,17 @@ public final class ModDimensions {
         publicDim = dim++;
         dungeonDim = dim++;
         dungeonMakingDim = dim++;
+        mazeDim = dim++;
         DimensionManager.registerDimension(limboDim, LIMBO);
         DimensionManager.registerDimension(privateDim, PRIVATE);
         DimensionManager.registerDimension(publicDim, PUBLIC);
         DimensionManager.registerDimension(dungeonDim, DUNGEON);
         DimensionManager.registerDimension(dungeonMakingDim, DUNGEON);
+        DimensionManager.registerDimension(mazeDim, MAZE);
     }
 
     public static boolean isDimDoorsPocketDimension(int id) {
+        //TODO: it's not clear whether {@code id == dungeonMakingDim} should also return true here, or not
         return id == privateDim || id == publicDim || id == dungeonDim;
     }
 
