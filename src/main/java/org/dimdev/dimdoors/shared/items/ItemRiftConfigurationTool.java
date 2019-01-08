@@ -16,6 +16,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.dimdev.dimdoors.DimDoors;
 import org.dimdev.dimdoors.client.TileEntityFloatingRiftRenderer;
+import org.dimdev.dimdoors.client.gui.GuiTestWaterpicker;
 import org.dimdev.dimdoors.shared.ModConfig;
 import org.dimdev.dimdoors.shared.tileentities.TileEntityRift;
 
@@ -43,13 +44,14 @@ public class ItemRiftConfigurationTool extends Item {
                 player.sendStatusMessage(new TextComponentTranslation("tools.rift_miss"), true);
                 TileEntityFloatingRiftRenderer.showRiftCoreUntil = System.currentTimeMillis() + ModConfig.graphics.highlightRiftCoreFor;
             }
+
+            new GuiTestWaterpicker(200, 200).open();
+
             return new ActionResult<>(EnumActionResult.FAIL, stack);
         }
 
         if (RayTraceHelper.isRift(hit, world)) {
             TileEntityRift rift = (TileEntityRift) world.getTileEntity(hit.getBlockPos());
-
-            System.out.println(rift);
 
             //TODO: implement this tool's functionality
             return new ActionResult<>(EnumActionResult.SUCCESS, stack);
