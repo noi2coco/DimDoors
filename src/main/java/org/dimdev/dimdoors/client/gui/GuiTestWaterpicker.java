@@ -13,6 +13,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.world.storage.MapData;
+import net.minecraftforge.fml.client.config.GuiButtonExt;
 import org.dimdev.dimdoors.shared.sound.ModSounds;
 
 import java.util.function.Consumer;
@@ -21,7 +23,7 @@ public class GuiTestWaterpicker extends PastryWindow {
     private Flexbox flex;
 
     public GuiTestWaterpicker(int width, int height) {
-        super(width, height, Style.PANEL.DEFAULT, false);
+        super(width, height, Style.PANEL, false);
         // Style.DEFAULT = MC rounded style
         // panel = square w/ subtle bevel
         // dialog = rounded w/ subtle bevel and no hard border between header/content (just a little grey line in the middle)
@@ -64,7 +66,6 @@ public class GuiTestWaterpicker extends PastryWindow {
                 newWindow.open();
             });
             this.button.setAnchor(new Vec2d(1, 0));
-
             Flexbox.Data flexData = new Flexbox.Data(0,
                     null,
                     0, 0,

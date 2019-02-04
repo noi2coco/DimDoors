@@ -45,13 +45,15 @@ public class ItemRiftConfigurationTool extends Item {
                 TileEntityFloatingRiftRenderer.showRiftCoreUntil = System.currentTimeMillis() + ModConfig.graphics.highlightRiftCoreFor;
             }
 
-            new GuiTestWaterpicker(200, 200).open();
+            //new GuiTestWaterpicker(200, 200).open();
 
             return new ActionResult<>(EnumActionResult.FAIL, stack);
         }
 
         if (RayTraceHelper.isRift(hit, world)) {
             TileEntityRift rift = (TileEntityRift) world.getTileEntity(hit.getBlockPos());
+
+
 
             //TODO: implement this tool's functionality
             return new ActionResult<>(EnumActionResult.SUCCESS, stack);
