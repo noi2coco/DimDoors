@@ -8,90 +8,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.dimdev.dimdoors.block.ModBlocks;
 import org.dimdev.dimdoors.fluid.ModFluids;
-import org.dimdev.dimdoors.rift.registry.LinkProperties;
-import org.dimdev.dimdoors.rift.targets.*;
 import org.dimdev.dimdoors.sound.ModSoundEvents;
-import org.dimdev.dimdoors.world.pocketdimension.PersonalPocketDimension;
-
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
 
 import static org.dimdev.dimdoors.item.ModItemGroups.DIMENSIONAL_DOORS;
 
 public final class ModItems {
     public static final Item GOLD_DOOR = register(ModBlocks.GOLD_DOOR);
     public static final Item QUARTZ_DOOR = register(ModBlocks.QUARTZ_DOOR);
-
-    public static final Item IRON_DIMENSIONAL_DOOR = register(new DimensionalDoorItem(
-            ModBlocks.IRON_DIMENSIONAL_DOOR,
-            new Item.Settings().group(DIMENSIONAL_DOORS).maxCount(1),
-            rift -> {
-                PublicPocketTarget destination = new PublicPocketTarget();
-                rift.setDestination(destination);
-            }
-    ));
-
-    public static final Item GOLD_DIMENSIONAL_DOOR = register(new DimensionalDoorItem(
-            ModBlocks.GOLD_DIMENSIONAL_DOOR,
-            new Item.Settings().group(DIMENSIONAL_DOORS).maxCount(1),
-            rift -> {
-                rift.setProperties(LinkProperties.builder()
-                                                 .groups(new HashSet<>(Arrays.asList(0, 1)))
-                                                 .linksRemaining(1).build());
-
-                rift.setDestination(RandomTarget.builder()
-                                                .acceptedGroups(Collections.singleton(0))
-                                                .coordFactor(1)
-                                                .negativeDepthFactor(10000)
-                                                .positiveDepthFactor(80)
-                                                .weightMaximum(100)
-                                                .noLink(false)
-                                                .noLinkBack(false)
-                                                .newRiftWeight(1).build());
-            }
-    ));
-
-    public static final Item QUARTZ_DIMENSIONAL_DOOR = register(new DimensionalDoorItem(
-            ModBlocks.QUARTZ_DIMENSIONAL_DOOR,
-            new Item.Settings().group(DIMENSIONAL_DOORS).maxCount(1),
-            rift -> {
-                if (rift.getWorld().dimension instanceof PersonalPocketDimension) {
-                    rift.setDestination(new PrivatePocketExitTarget()); // exit
-                } else {
-                    rift.setDestination(new PrivatePocketTarget()); // entrances
-                }
-            }
-    ));
-
-//    public static final Item UNSTABLE_DIMENSIONAL_DOOR = register( new DimensionalDoorItem(
-//            ModBlocks.IRON_DIMENSIONAL_DOOR,
-//            new Item.Settings().group(ModItemGroups.DIMENSIONAL_DOORS).maxCount(1),
-//            rift -> {
-//                 TODO
-//            }
-//    ));
-
-    public static final Item OAK_DIMENSIONAL_DOOR = register(new DimensionalDoorItem(
-            ModBlocks.OAK_DIMENSIONAL_DOOR,
-            new Item.Settings().group(DIMENSIONAL_DOORS).maxCount(1),
-            rift -> rift.setDestination(
-                    RandomTarget
-                            .builder()
-                            .acceptedGroups(Collections.singleton(0))
-                            .coordFactor(1)
-                            .negativeDepthFactor(80)
-                            .positiveDepthFactor(Double.MAX_VALUE)
-                            .weightMaximum(100)
-                            .noLink(false).newRiftWeight(0).build()
-            )
-    ));
-
-    public static final Item OAK_DIMENSIONAL_TRAPDOOR = register(new DimensionalTrapdoorItem(
-            ModBlocks.OAK_DIMENSIONAL_TRAPDOOR,
-            new Item.Settings().group(DIMENSIONAL_DOORS).maxCount(1),
-            rift -> rift.setDestination(new EscapeTarget(false))
-    ));
 
     public static final Item WHITE_FABRIC = register(ModBlocks.WHITE_FABRIC);
     public static final Item ORANGE_FABRIC = register(ModBlocks.ORANGE_FABRIC);
@@ -127,12 +50,9 @@ public final class ModItems {
     public static final Item RED_ANCIENT_FABRIC = register(ModBlocks.RED_ANCIENT_FABRIC);
     public static final Item BLACK_ANCIENT_FABRIC = register(ModBlocks.BLACK_ANCIENT_FABRIC);
 
-    public static final Item ETERNAL_FLUID = register(ModBlocks.ETERNAL_FLUID);
     public static final Item UNRAVELLED_FABRIC = register(ModBlocks.UNRAVELLED_FABRIC, DIMENSIONAL_DOORS);
 
     public static final Item MARKING_PLATE = register(ModBlocks.MARKING_PLATE, DIMENSIONAL_DOORS);
-
-    // Dimensional doors
 
     public static final Item WORLD_THREAD = register(new Identifier("dimdoors:world_thread"), new Item(new Item.Settings().group(DIMENSIONAL_DOORS)));
     public static final Item STABLE_FABRIC = register(new Identifier("dimdoors:stable_fabric"), new Item(new Item.Settings().group(DIMENSIONAL_DOORS)));
@@ -149,7 +69,7 @@ public final class ModItems {
     public static final Item WORLD_THREAD_BOOTS = register(new Identifier("dimdoors:world_thread_boots"), new WorldThreadArmorItem(EquipmentSlot.FEET, new Item.Settings()));
 
     public static final Item CREEPY_RECORD = register(new Identifier("dimdoors:creepy_record"), new MusicDiscItem(10, ModSoundEvents.CREEPY, new Item.Settings().group(DIMENSIONAL_DOORS)));
-    public static final Item WHITE_VOID_RECORD = register(new Identifier("dimdoors:white_void_record"), new MusicDiscItem(10, ModSoundEvents.CREEPY, new Item.Settings().group(DIMENSIONAL_DOORS)));
+    public static final Item WHITE_VOID_RECORD = register(new Identifier("dimdoors:white_void_record"), new MusicDiscItem(10, ModSoundEvents.WHITE_VOID, new Item.Settings().group(DIMENSIONAL_DOORS)));
 
     public static final Item ETERNAL_FLUID_BUCKET = register(new Identifier("dimdoors:eternal_fluid_bucket"), new BucketItem(ModFluids.ETERNAL_FLUID, new Item.Settings().group(DIMENSIONAL_DOORS).recipeRemainder(Items.BUCKET).maxCount(1)));
 
@@ -181,7 +101,7 @@ public final class ModItems {
         // just loads the class
     }
 
-    private static class MusicDiscItem extends net.minecraft.item.MusicDiscItem { // TODO: access transformers
+    private static class MusicDiscItem extends net.minecraft.item.MusicDiscItem { // TODO: access wideners
         protected MusicDiscItem(int i, SoundEvent soundEvent, Settings settings) {
             super(i, soundEvent, settings);
         }

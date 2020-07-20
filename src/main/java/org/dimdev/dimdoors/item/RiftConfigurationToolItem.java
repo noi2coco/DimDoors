@@ -12,20 +12,14 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.dimdev.dimdoors.ModConfig;
-import org.dimdev.dimdoors.block.entity.RiftBlockEntity;
-import org.dimdev.dimdoors.client.DetachedRiftBlockEntityRenderer;
 
 import java.util.List;
 
 import static net.fabricmc.api.EnvType.*;
 
 public class RiftConfigurationToolItem extends Item {
-
-    public static final String ID = "rift_configuration_tool";
-
     RiftConfigurationToolItem() {
         super(new Item.Settings().group(ModItemGroups.DIMENSIONAL_DOORS).maxCount(1).maxDamage(16));
     }
@@ -38,17 +32,13 @@ public class RiftConfigurationToolItem extends Item {
         if (world.isClient) {
             if (!RayTraceHelper.hitsRift(hit, world)) {
                 player.sendMessage(new TranslatableText("tools.rift_miss"));
-                DetachedRiftBlockEntityRenderer.showRiftCoreUntil = System.currentTimeMillis() + ModConfig.GRAPHICS.highlightRiftCoreFor;
             }
             return new TypedActionResult<>(ActionResult.FAIL, stack);
         }
 
         if (RayTraceHelper.hitsRift(hit, world)) {
-            RiftBlockEntity rift = (RiftBlockEntity) world.getBlockEntity(new BlockPos(hit.getPos()));
+//            RiftBlockEntity rift = (RiftBlockEntity) world.getBlockEntity(new BlockPos(hit.getPos()));
 
-            System.out.println(rift);
-
-            //TODO: implement this tool's functionality
             return new TypedActionResult<>(ActionResult.SUCCESS, stack);
         }
         return new TypedActionResult<>(ActionResult.FAIL, stack);

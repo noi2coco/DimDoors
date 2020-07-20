@@ -28,11 +28,7 @@ import java.util.function.Function;
 public class DimensionalDoorsClientInitializer implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        putCutout(ModBlocks.OAK_DIMENSIONAL_DOOR);
-        putCutout(ModBlocks.GOLD_DIMENSIONAL_DOOR);
-        putCutout(ModBlocks.IRON_DIMENSIONAL_DOOR);
-        putCutout(ModBlocks.OAK_DIMENSIONAL_TRAPDOOR);
-        putCutout(ModBlocks.QUARTZ_DIMENSIONAL_DOOR);
+        putCutout(ModBlocks.GOLD_DOOR);
         putCutout(ModBlocks.QUARTZ_DOOR);
 
         setupFluidRendering(ModFluids.ETERNAL_FLUID, ModFluids.FLOWING_ETERNAL_FLUID, new Identifier("dimdoors:eternal_fluid"));

@@ -5,9 +5,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import org.dimdev.dimdoors.world.limbo.LimboDimension;
-import org.dimdev.dimdoors.world.pocketdimension.DungeonPocketDimension;
-import org.dimdev.dimdoors.world.pocketdimension.PersonalPocketDimension;
-import org.dimdev.dimdoors.world.pocketdimension.PublicPocketDimension;
+import org.dimdev.dimdoors.world.pocket.DungeonPocketDimension;
+import org.dimdev.dimdoors.world.pocket.PersonalPocketDimension;
+import org.dimdev.dimdoors.world.pocket.PublicPocketDimension;
 
 public final class ModDimensions {
     public static final DimensionType LIMBO = FabricDimensionType.builder().factory(LimboDimension::new).defaultPlacer(new LimboEntityPlacer()).buildAndRegister(new Identifier("dimdoors:limbo"));

@@ -22,7 +22,6 @@ public class MonolithRenderer extends EntityRenderer<MonolithEntity> {
         matrixStack.push();
         //model.render(entity);
         matrixStack.pop();
-
     }
 
     @Override

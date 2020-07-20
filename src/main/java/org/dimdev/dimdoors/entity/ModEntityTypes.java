@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityCategory;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.registry.Registry;
+import org.dimdev.dimdoors.client.RiftRenderer;
 
 public class ModEntityTypes {
     public static final EntityType<MonolithEntity> MONOLITH = register(
@@ -22,22 +23,22 @@ public class ModEntityTypes {
             new EntityDimensions(3, 3, false)
     );
 
-    public static final EntityType<MaskEntity> MASK = register(
-            "dimdoors:mask",
-            MaskEntity::new,
-            EntityCategory.MONSTER,
+    public static final EntityType<RiftEntity> RIFT = register(
+            "dimdoors:rift",
+            RiftEntity::new,
+            EntityCategory.MISC,
             true,
             true,
             true,
             true,
             128,
             32,
-            new EntityDimensions(1, 1, false)
+            new EntityDimensions(1, 1, true)
     );
 
     public static void init() {
         EntityRendererRegistry.INSTANCE.register(MONOLITH, MonolithRenderer::new);
-        EntityRendererRegistry.INSTANCE.register(MASK, MaskRenderer::new);
+        EntityRendererRegistry.INSTANCE.register(RIFT, RiftRenderer::new);
     }
 
     private static <E extends Entity> EntityType<E> register(String id, EntityType.EntityFactory<E> factory, EntityCategory category, boolean canSpawnFar, boolean saveable, boolean summonable, boolean immuneToFire, int i, int j, EntityDimensions dimensions) {

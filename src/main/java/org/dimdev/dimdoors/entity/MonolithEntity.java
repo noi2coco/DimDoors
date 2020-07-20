@@ -1,9 +1,7 @@
 package org.dimdev.dimdoors.entity;
 
-import com.flowpowered.math.vector.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -21,9 +19,7 @@ import net.minecraft.world.World;
 import org.dimdev.dimdoors.ModConfig;
 import org.dimdev.dimdoors.sound.ModSoundEvents;
 import org.dimdev.dimdoors.world.limbo.LimboDimension;
-import org.dimdev.dimdoors.world.pocketdimension.DungeonPocketDimension;
-import org.dimdev.util.Location;
-import org.dimdev.util.TeleportUtil;
+import org.dimdev.dimdoors.world.pocket.DungeonPocketDimension;
 
 import static net.minecraft.entity.attribute.EntityAttributes.MAX_HEALTH;
 

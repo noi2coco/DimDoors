@@ -1,38 +1,71 @@
 package org.dimdev.util;
 
-import com.mojang.datafixers.DataFixerUpper;
-import com.mojang.datafixers.Dynamic;
-import net.fabricmc.fabric.api.dimension.v1.FabricDimensions;
-import net.minecraft.block.pattern.BlockPattern;
-import net.minecraft.datafixer.NbtOps;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ChunkTicketType;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 
 public final class TeleportUtil {
-    public static void teleport(Entity entity, World world, BlockPos pos, int yawOffset) {
+    public static void teleport(Entity entity, ServerWorld world, BlockPos pos, int yawOffset) {
         teleport(entity, world, Vec3d.method_24955(pos), yawOffset);
     }
 
-    public static void teleport(Entity entity, World world, Vec3d pos, float yawOffset) {
-        teleport(entity, world.dimension.getType(), pos, yawOffset);
+    public static void teleport(Entity entity, ServerWorld world, Vec3d pos, float yawOffset) {
+        teleport(entity, world, pos.x, pos.y, pos.z, entity.yaw + yawOffset, entity.pitch);
     }
 
-    public static void teleport(Entity entity, DimensionType dimension, Vec3d pos, float yawOffset) {
-        if (entity.dimension == dimension) {
-            entity.setPos(pos.x, pos.y, pos.z);
-            entity.setYaw(entity.yaw + yawOffset);
+    public static void teleport(Entity entity, ServerWorld world, double x, double y, double z, float yaw, float pitch) {
+        yaw = MathHelper.wrapDegrees(yaw);
+        pitch = MathHelper.wrapDegrees(pitch);
+
+        if (entity instanceof ServerPlayerEntity) {
+            ChunkPos chunkPos = new ChunkPos(new BlockPos(x, y, z));
+            world.getChunkManager().addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 1, entity.getEntityId());
+            entity.stopRiding();
+
+            if (((ServerPlayerEntity) entity).isSleeping()) {
+                ((ServerPlayerEntity) entity).wakeUp(true, true);
+            }
+
+            if (world == entity.world) {
+                ((ServerPlayerEntity) entity).networkHandler.teleportRequest(x, y, z, yaw, pitch, PlayerPositionLookS2CPacket.Flag.getFlags(0b11111));
+            } else {
+                ((ServerPlayerEntity) entity).teleport(world, x, y, z, yaw, pitch);
+            }
+
+            entity.setHeadYaw(yaw);
         } else {
+            if (world == entity.world) {
+                entity.refreshPositionAndAngles(x, y, z, yaw, pitch);
+                entity.setHeadYaw(yaw);
+            } else {
+                entity.detach();
+                entity.dimension = world.dimension.getType();
+                Entity oldEntity = entity;
+                entity = entity.getType().create(world);
 
-            FabricDimensions.teleport(
-                    entity,
-                    dimension,
-                    (e, serverWorld, direction, v, v1) -> new BlockPattern.TeleportTarget(pos, e.getVelocity(), (int) (e.yaw + yawOffset))
-            );
+                if (entity == null) {
+                    return;
+                }
 
-            entity.setOnFireFor(0); // Workaround for https://bugs.mojang.com/browse/MC-100097
+                entity.copyFrom(oldEntity);
+                entity.refreshPositionAndAngles(x, y, z, yaw, pitch);
+                entity.setHeadYaw(yaw);
+                world.onDimensionChanged(entity);
+                oldEntity.removed = true;
+            }
+        }
+
+        if (!(entity instanceof LivingEntity) || !((LivingEntity) entity).isFallFlying()) {
+            entity.setVelocity(entity.getVelocity().multiply(1, 0, 1));
+            entity.method_24830(true);
         }
     }
 }

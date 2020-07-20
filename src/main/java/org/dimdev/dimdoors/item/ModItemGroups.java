@@ -9,16 +9,10 @@ import net.minecraft.util.Identifier;
 public final class ModItemGroups {
     public static final ItemGroup DIMENSIONAL_DOORS = FabricItemGroupBuilder
             .create(new Identifier("dimdoors", "dimensional_doors"))
-            .icon(() -> new ItemStack(ModItems.IRON_DIMENSIONAL_DOOR))
+            .icon(() -> new ItemStack(ModItems.RIFT_BLADE))
             .appendItems(items -> items.addAll(Lists.newArrayList(
                     new ItemStack(ModItems.QUARTZ_DOOR),
-                    new ItemStack(ModItems.QUARTZ_DIMENSIONAL_DOOR),
                     new ItemStack(ModItems.GOLD_DOOR),
-                    new ItemStack(ModItems.GOLD_DIMENSIONAL_DOOR),
-                    new ItemStack(ModItems.IRON_DIMENSIONAL_DOOR),
-                    new ItemStack(ModItems.OAK_DIMENSIONAL_DOOR),
-//                    new ItemStack(ModItems.UNSTABLE_DIMENSIONAL_DOOR),
-                    new ItemStack(ModItems.OAK_DIMENSIONAL_TRAPDOOR),
                     new ItemStack(ModItems.WORLD_THREAD),
                     new ItemStack(ModItems.RIFT_CONFIGURATION_TOOL),
                     new ItemStack(ModItems.RIFT_BLADE),
