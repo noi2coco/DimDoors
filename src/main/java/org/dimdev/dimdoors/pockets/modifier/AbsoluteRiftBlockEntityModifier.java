@@ -1,6 +1,8 @@
 package org.dimdev.dimdoors.pockets.modifier;
 
-import net.fabricmc.fabric.api.util.NbtType;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -9,14 +11,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+
+import net.fabricmc.fabric.api.util.NbtType;
 import org.dimdev.dimdoors.DimensionalDoorsInitializer;
 import org.dimdev.dimdoors.block.entity.RiftBlockEntity;
 import org.dimdev.dimdoors.util.PocketGenerationParameters;
 import org.dimdev.dimdoors.world.pocket.type.LazyGenerationPocket;
 import org.dimdev.dimdoors.world.pocket.type.Pocket;
-
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class AbsoluteRiftBlockEntityModifier implements LazyModifier {
 	public static final String KEY = "block_entity";
@@ -85,19 +86,19 @@ public class AbsoluteRiftBlockEntityModifier implements LazyModifier {
 	@Override
 	public void applyToChunk(LazyGenerationPocket pocket, Chunk chunk) {
 		ChunkPos chunkPos = chunk.getPos();
-		BlockBox chunkBox = BlockBox.create(chunkPos.getStartX(), chunk.getBottomY(), chunkPos.getStartZ(), chunkPos.getEndX(), chunk.getTopY(), chunkPos.getEndZ());
+		BlockBox chunkBox = BlockBox.create(chunkPos.getStartX(), 0, chunkPos.getStartZ(), chunkPos.getEndX(), chunk.getHeight()-1, chunkPos.getEndZ());
 
 		if (rifts != null) {
 			rifts.entrySet().stream().unordered().filter(entry -> chunkBox.contains(entry.getKey())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
 					.forEach((pos, rift) -> {
 						rifts.remove(pos);
-						chunk.setBlockEntity(rift);
+						chunk.setBlockEntity(pos, rift);
 					});
 		} else {
 			serializedRifts.entrySet().stream().unordered().filter(entry -> chunkBox.contains(entry.getKey())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
 					.forEach((pos, riftTag) -> {
 						rifts.remove(pos);
-						chunk.setBlockEntity(BlockEntity.createFromTag(pos, chunk.getBlockState(pos), riftTag));
+						chunk.setBlockEntity(pos, BlockEntity.createFromTag(chunk.getBlockState(pos), riftTag));
 					});
 		}
 	}

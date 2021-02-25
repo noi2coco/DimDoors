@@ -2,21 +2,18 @@ package org.dimdev.dimdoors.client;
 
 import java.util.ArrayList;
 
-import org.dimdev.dimdoors.entity.RiftEntity;
-
 import net.minecraft.client.render.TexturedRenderLayers;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
-import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import org.dimdev.dimdoors.entity.RiftEntity;
 
 public class RiftRenderer extends EntityRenderer<RiftEntity> {
-    public RiftRenderer(EntityRendererFactory.Context ctx) {
+    public RiftRenderer(EntityRenderDispatcher ctx) {
         super(ctx);
     }
 

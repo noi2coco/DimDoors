@@ -3,15 +3,6 @@ package org.dimdev.dimdoors.entity.ai;
 import java.util.EnumSet;
 import java.util.Random;
 
-import io.netty.buffer.Unpooled;
-import org.dimdev.dimdoors.DimensionalDoorsInitializer;
-import org.dimdev.dimdoors.entity.MonolithEntity;
-import org.dimdev.dimdoors.item.ModItems;
-import org.dimdev.dimdoors.sound.ModSoundEvents;
-import org.dimdev.dimdoors.util.Location;
-import org.dimdev.dimdoors.util.TeleportUtil;
-import org.dimdev.dimdoors.world.ModDimensions;
-
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,9 +11,12 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
+import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-
+import org.dimdev.dimdoors.DimensionalDoorsInitializer;
+import org.dimdev.dimdoors.entity.MonolithEntity;
+import org.dimdev.dimdoors.item.ModItems;
+import org.dimdev.dimdoors.sound.ModSoundEvents;
 import static net.minecraft.predicate.entity.EntityPredicates.EXCEPT_SPECTATOR;
 import static org.dimdev.dimdoors.entity.MonolithEntity.MAX_AGGRO;
 
@@ -66,15 +60,15 @@ public class MonolithAggroGoal extends Goal {
             return;
         }
 
-        if (this.target != null && (this.target.getInventory().armor.get(0).getItem() == ModItems.WORLD_THREAD_HELMET && this.target.getInventory().armor.get(1).getItem() == ModItems.WORLD_THREAD_CHESTPLATE && this.target.getInventory().armor.get(2).getItem() == ModItems.WORLD_THREAD_LEGGINGS && this.target.getInventory().armor.get(3).getItem() == ModItems.WORLD_THREAD_BOOTS)) {
+        if (this.target != null && (this.target.inventory.armor.get(0).getItem() == ModItems.WORLD_THREAD_HELMET && this.target.inventory.armor.get(1).getItem() == ModItems.WORLD_THREAD_CHESTPLATE && this.target.inventory.armor.get(2).getItem() == ModItems.WORLD_THREAD_LEGGINGS && this.target.inventory.armor.get(3).getItem() == ModItems.WORLD_THREAD_BOOTS)) {
             Random random = new Random();
             int i = random.nextInt(64);
             if (this.target instanceof ServerPlayerEntity) {
                 if (i < 4) {
-                    this.target.getInventory().armor.get(0).damage(i, random, (ServerPlayerEntity) this.target);
-                    this.target.getInventory().armor.get(1).damage(i, random, (ServerPlayerEntity) this.target);
-                    this.target.getInventory().armor.get(2).damage(i, random, (ServerPlayerEntity) this.target);
-                    this.target.getInventory().armor.get(3).damage(i, random, (ServerPlayerEntity) this.target);
+                    this.target.inventory.armor.get(0).damage(i, random, (ServerPlayerEntity) this.target);
+                    this.target.inventory.armor.get(1).damage(i, random, (ServerPlayerEntity) this.target);
+                    this.target.inventory.armor.get(2).damage(i, random, (ServerPlayerEntity) this.target);
+                    this.target.inventory.armor.get(3).damage(i, random, (ServerPlayerEntity) this.target);
                 }
             }
             return;

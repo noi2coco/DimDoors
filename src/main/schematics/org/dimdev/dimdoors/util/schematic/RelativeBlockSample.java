@@ -87,7 +87,7 @@ public class RelativeBlockSample implements BlockView, ModifiableWorld {
 		BlockState blockState = this.getBlockState(pos);
 
 		if (blockState.getBlock() instanceof BlockEntityProvider) {
-			return ((BlockEntityProvider) blockState.getBlock()).cr.createBlockEntity(pos, blockState);
+			return ((BlockEntityProvider) blockState.getBlock()).createBlockEntity(this);
 		}
 
 		return null;
@@ -140,7 +140,7 @@ public class RelativeBlockSample implements BlockView, ModifiableWorld {
 
 	public void place(BlockPos origin, ServerWorld world, Chunk chunk, BlockPlacementType placementType, boolean biomes) {
 		ChunkPos pos = chunk.getPos();
-		BlockBox chunkBox = BlockBox.create(pos.getStartX(), chunk.getBottomY(), pos.getStartZ(), pos.getEndX(), chunk.getTopY(), pos.getEndZ());
+		BlockBox chunkBox = BlockBox.create(pos.getStartX(), 0, pos.getStartZ(), pos.getEndX(), chunk.getHeight() - 1, pos.getEndZ());
 		BlockBox schemBox = BlockBox.create(origin.getX(), origin.getY(), origin.getZ(), origin.getX() + schematic.getWidth() - 1, origin.getY() + schematic.getHeight() - 1, origin.getZ() + schematic.getLength() - 1);
 		BlockBox intersection = BlockBoxUtil.intersection(chunkBox, schemBox);
 		if (!BlockBoxUtil.isRealBox(intersection)) return;
@@ -192,9 +192,9 @@ public class RelativeBlockSample implements BlockView, ModifiableWorld {
 					tag.remove("Id");
 				}
 
-				BlockEntity blockEntity = BlockEntity.createFromTag(actualPos, this.getBlockState(blockPos), tag);
+				BlockEntity blockEntity = BlockEntity.createFromTag(this.getBlockState(blockPos), tag);
 				if (blockEntity != null && !(blockEntity instanceof RiftBlockEntity)) {
-					chunk.setBlockEntity(blockEntity);
+					chunk.setBlockEntity(actualPos, blockEntity);
 				}
 			}
 		});
@@ -225,7 +225,7 @@ public class RelativeBlockSample implements BlockView, ModifiableWorld {
 				tag.remove("Id");
 			}
 			BlockState state = getBlockState(blockPos);
-			BlockEntity blockEntity = BlockEntity.createFromTag(actualPos, state, tag);
+			BlockEntity blockEntity = BlockEntity.createFromTag(state, tag);
 			if (blockEntity instanceof RiftBlockEntity) {
 				rifts.put(actualPos, (RiftBlockEntity) blockEntity);
 			}

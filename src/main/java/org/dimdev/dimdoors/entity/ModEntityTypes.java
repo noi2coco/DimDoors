@@ -1,9 +1,6 @@
 package org.dimdev.dimdoors.entity;
 
-import org.dimdev.dimdoors.client.MaskRenderer;
-import org.dimdev.dimdoors.client.MonolithRenderer;
-import org.dimdev.dimdoors.client.RiftRenderer;
-
+import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
@@ -13,8 +10,12 @@ import net.minecraft.util.registry.Registry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import org.dimdev.dimdoors.client.MaskRenderer;
+import org.dimdev.dimdoors.client.MonolithRenderer;
+import org.dimdev.dimdoors.client.RiftRenderer;
 
 public class ModEntityTypes {
     public static final EntityType<MonolithEntity> MONOLITH = register(

@@ -1,26 +1,30 @@
 package org.dimdev.dimdoors.pockets.modifier;
 
+import com.google.common.base.MoreObjects;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.MoreObjects;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.block.AirBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.nbt.*;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockBox;
-import net.minecraft.util.math.BlockPos;
-
-import net.fabricmc.fabric.api.util.NbtType;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Vec3i;
-import net.minecraft.world.chunk.Chunk;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import net.minecraft.block.AirBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockBox;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.Vec3i;
+import net.minecraft.world.chunk.Chunk;
+
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
+import net.fabricmc.fabric.api.util.NbtType;
 import org.dimdev.dimdoors.util.BlockBoxUtil;
 import org.dimdev.dimdoors.util.PocketGenerationParameters;
 import org.dimdev.dimdoors.util.math.Equation;
@@ -60,7 +64,7 @@ public class ShellModifier implements LazyModifier {
 			final BlockState blockState = layer.getBlockState();
 
 			ChunkPos pos = chunk.getPos();
-			BlockBox chunkBox = BlockBox.create(pos.getStartX(), chunk.getBottomY(), pos.getStartZ(), pos.getEndX(), chunk.getTopY(), pos.getEndZ());
+			BlockBox chunkBox = BlockBox.create(pos.getStartX(), 0, pos.getStartZ(), pos.getEndX(), chunk.getHeight() - 1, pos.getEndZ());
 
 			BlockBox temp;
 
