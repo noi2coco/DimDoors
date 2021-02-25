@@ -2,6 +2,7 @@ package org.dimdev.dimdoors.block;
 
 import net.minecraft.util.math.Vec3d;
 
+import io.github.boogiemonster1o1.libcbe.api.ConditionalBlockEntityProvider;
 import org.dimdev.dimdoors.DimensionalDoorsInitializer;
 import org.dimdev.dimdoors.block.entity.DetachedRiftBlockEntity;
 import org.dimdev.dimdoors.block.entity.EntranceRiftBlockEntity;
@@ -27,7 +28,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class DimensionalDoorBlock extends DoorBlock implements RiftProvider<EntranceRiftBlockEntity>, CoordinateTransformerBlock {
+public class DimensionalDoorBlock extends DoorBlock implements RiftProvider<EntranceRiftBlockEntity>, CoordinateTransformerBlock, ConditionalBlockEntityProvider {
 	public DimensionalDoorBlock(Settings settings) {
 		super(settings);
 	}
@@ -75,11 +76,13 @@ public class DimensionalDoorBlock extends DoorBlock implements RiftProvider<Entr
 
 	@Nullable
 	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-		if (state.get(DoorBlock.HALF) == DoubleBlockHalf.UPPER) {
-			return null;
-		}
-		return new EntranceRiftBlockEntity(pos, state);
+	public BlockEntity createBlockEntity(BlockView world) {
+		return new EntranceRiftBlockEntity();
+	}
+
+	@Override
+	public boolean hasBlockEntity(BlockState state) {
+		return state.get(DoorBlock.HALF) == DoubleBlockHalf.LOWER;
 	}
 
 	@Override

@@ -2,12 +2,6 @@ package org.dimdev.dimdoors.entity;
 
 import java.util.Random;
 
-import org.dimdev.dimdoors.DimensionalDoorsInitializer;
-import org.dimdev.dimdoors.entity.ai.MonolithAggroGoal;
-import org.dimdev.dimdoors.item.ModItems;
-import org.dimdev.dimdoors.sound.ModSoundEvents;
-import org.dimdev.dimdoors.world.ModDimensions;
-
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -33,6 +27,11 @@ import net.minecraft.world.WorldAccess;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import org.dimdev.dimdoors.DimensionalDoorsInitializer;
+import org.dimdev.dimdoors.entity.ai.MonolithAggroGoal;
+import org.dimdev.dimdoors.item.ModItems;
+import org.dimdev.dimdoors.sound.ModSoundEvents;
+import org.dimdev.dimdoors.world.ModDimensions;
 
 public class MonolithEntity extends MobEntity {
     public final EntityDimensions DIMENSIONS = EntityDimensions.fixed(3f, 6f);
@@ -138,7 +137,7 @@ public class MonolithEntity extends MobEntity {
     protected void mobTick() {
         // Remove this Monolith if it's not in Limbo or in a pocket dungeon
         if (!(ModDimensions.isLimboDimension(this.world) || ModDimensions.isPocketDimension(this.world))) {
-            this.remove(RemovalReason.DISCARDED);
+            this.remove();
             super.mobTick();
             return;
         }
@@ -155,7 +154,7 @@ public class MonolithEntity extends MobEntity {
             return;
         }
 
-        if ((player.getInventory().armor.get(0).getItem() == ModItems.WORLD_THREAD_HELMET && player.getInventory().armor.get(1).getItem() == ModItems.WORLD_THREAD_CHESTPLATE && player.getInventory().armor.get(2).getItem() == ModItems.WORLD_THREAD_LEGGINGS && player.getInventory().armor.get(3).getItem() == ModItems.WORLD_THREAD_BOOTS)) {
+        if ((player.inventory.armor.get(0).getItem() == ModItems.WORLD_THREAD_HELMET && player.inventory.armor.get(1).getItem() == ModItems.WORLD_THREAD_CHESTPLATE && player.inventory.armor.get(2).getItem() == ModItems.WORLD_THREAD_LEGGINGS && player.inventory.armor.get(3).getItem() == ModItems.WORLD_THREAD_BOOTS)) {
             return;
         }
 

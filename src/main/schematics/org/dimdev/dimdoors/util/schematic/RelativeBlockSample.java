@@ -87,7 +87,7 @@ public class RelativeBlockSample implements BlockView, ModifiableWorld {
 		BlockState blockState = this.getBlockState(pos);
 
 		if (blockState.getBlock() instanceof BlockEntityProvider) {
-			return ((BlockEntityProvider) blockState.getBlock()).createBlockEntity(pos, blockState);
+			return ((BlockEntityProvider) blockState.getBlock()).cr.createBlockEntity(pos, blockState);
 		}
 
 		return null;
@@ -272,10 +272,5 @@ public class RelativeBlockSample implements BlockView, ModifiableWorld {
 	@Override
 	public int getHeight() {
 		return this.schematic.getHeight();
-	}
-
-	@Override
-	public int getBottomY() {
-		return 0;
 	}
 }

@@ -12,10 +12,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
-import net.minecraft.block.MapColor;
+import net.minecraft.block.MaterialColor;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
@@ -34,8 +33,8 @@ public class DetachedRiftBlock extends BlockWithEntity implements RiftProvider<D
 	}
 
 	@Override
-	public MapColor getDefaultMapColor() {
-		return MapColor.BLACK;
+	public MaterialColor getDefaultMaterialColor() {
+		return MaterialColor.BLACK;
 	}
 
 	@Override
@@ -91,13 +90,7 @@ public class DetachedRiftBlock extends BlockWithEntity implements RiftProvider<D
 
 	@Nullable
 	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-		return new DetachedRiftBlockEntity(pos, state);
-	}
-
-	@Nullable
-	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-		return checkType(type, ModBlockEntityTypes.DETACHED_RIFT, DetachedRiftBlockEntity::tick);
+	public BlockEntity createBlockEntity(BlockView world) {
+		return new DetachedRiftBlockEntity();
 	}
 }

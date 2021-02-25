@@ -44,14 +44,14 @@ public abstract class RiftBlockEntity extends BlockEntity implements BlockEntity
 
 	protected boolean riftStateChanged;
 
-	public RiftBlockEntity(BlockEntityType<? extends RiftBlockEntity> type, BlockPos pos, BlockState state) {
-		super(type, pos, state);
+	public RiftBlockEntity(BlockEntityType<? extends RiftBlockEntity> type) {
+		super(type);
 	}
 
 	@Override
-	public void fromTag(CompoundTag nbt) {
-		super.fromTag(nbt);
-		this.deserialize(nbt);
+	public void fromTag(BlockState state, CompoundTag tag) {
+		super.fromTag(state, tag);
+		this.deserialize(tag);
 	}
 
 	public void deserialize(CompoundTag nbt) {

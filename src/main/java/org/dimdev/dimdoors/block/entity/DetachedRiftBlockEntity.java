@@ -2,6 +2,7 @@ package org.dimdev.dimdoors.block.entity;
 
 import java.util.Random;
 
+import net.minecraft.util.Tickable;
 import net.minecraft.util.math.EulerAngle;
 import net.minecraft.util.math.Vec3d;
 import org.dimdev.dimdoors.DimensionalDoorsInitializer;
@@ -21,7 +22,7 @@ import net.minecraft.world.World;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-public class DetachedRiftBlockEntity extends RiftBlockEntity {
+public class DetachedRiftBlockEntity extends RiftBlockEntity implements Tickable {
 	private static final Random random = new Random();
 
 	public boolean closing = false;
@@ -34,17 +35,17 @@ public class DetachedRiftBlockEntity extends RiftBlockEntity {
 	@Environment(EnvType.CLIENT)
 	public double renderAngle;
 
-	public DetachedRiftBlockEntity(BlockPos pos, BlockState state) {
-		super(ModBlockEntityTypes.DETACHED_RIFT, pos, state);
+	public DetachedRiftBlockEntity() {
+		super(ModBlockEntityTypes.DETACHED_RIFT);
 	}
 
-	public static void tick(World world, BlockPos pos, BlockState state, DetachedRiftBlockEntity blockEntity) {
+	public void tick() {
 		if (world == null) {
 			return;
 		}
 
-		if (state.getBlock() != ModBlocks.DETACHED_RIFT) {
-			blockEntity.markRemoved();
+		if (getCachedState().getBlock() != ModBlocks.DETACHED_RIFT) {
+			markRemoved();
 			return;
 		}
 
@@ -67,14 +68,14 @@ public class DetachedRiftBlockEntity extends RiftBlockEntity {
 			}
 		}
 
-		if (blockEntity.closing) {
-			if (blockEntity.size > 0) {
-				blockEntity.size -= DimensionalDoorsInitializer.getConfig().getGeneralConfig().riftCloseSpeed;
+		if (closing) {
+			if (size > 0) {
+				size -= DimensionalDoorsInitializer.getConfig().getGeneralConfig().riftCloseSpeed;
 			} else {
 				world.removeBlock(pos, false);
 			}
-		} else if (!blockEntity.stabilized) {
-			blockEntity.size += DimensionalDoorsInitializer.getConfig().getGeneralConfig().riftGrowthSpeed / (blockEntity.size + 1);
+		} else if (!stabilized) {
+			size += DimensionalDoorsInitializer.getConfig().getGeneralConfig().riftGrowthSpeed / (size + 1);
 		}
 	}
 

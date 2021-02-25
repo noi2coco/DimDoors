@@ -36,8 +36,8 @@ public class DimensionalPortalBlock extends Block implements RiftProvider<Entran
 
 	@Nullable
 	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-		return new EntranceRiftBlockEntity(pos, state);
+	public BlockEntity createBlockEntity(BlockView view) {
+		return new EntranceRiftBlockEntity();
 	}
 
 	@Override

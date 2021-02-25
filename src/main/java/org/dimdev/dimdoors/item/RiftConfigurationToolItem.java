@@ -1,16 +1,9 @@
 package org.dimdev.dimdoors.item;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dimdev.dimdoors.block.entity.RiftBlockEntity;
-import org.dimdev.dimdoors.network.ServerPacketHandler;
-import org.dimdev.dimdoors.network.s2c.PlayerInventorySlotUpdateS2CPacket;
-import org.dimdev.dimdoors.rift.targets.IdMarker;
-import org.dimdev.dimdoors.util.EntityUtils;
-import org.dimdev.dimdoors.world.level.Counter;
 
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.item.TooltipContext;
@@ -18,7 +11,6 @@ import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -31,9 +23,12 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-
+import org.dimdev.dimdoors.block.entity.RiftBlockEntity;
+import org.dimdev.dimdoors.network.ServerPacketHandler;
+import org.dimdev.dimdoors.network.s2c.PlayerInventorySlotUpdateS2CPacket;
+import org.dimdev.dimdoors.rift.targets.IdMarker;
+import org.dimdev.dimdoors.util.EntityUtils;
+import org.dimdev.dimdoors.world.level.Counter;
 import static net.fabricmc.api.EnvType.CLIENT;
 
 public class RiftConfigurationToolItem extends ModItem {
@@ -124,7 +119,7 @@ public class RiftConfigurationToolItem extends ModItem {
 		if (hand == Hand.OFF_HAND) {
 			ServerPacketHandler.sendPacket(serverPlayer, new PlayerInventorySlotUpdateS2CPacket(45, stack));
 		} else {
-			ServerPacketHandler.sendPacket(serverPlayer, new PlayerInventorySlotUpdateS2CPacket(serverPlayer.getInventory().selectedSlot, stack));
+			ServerPacketHandler.sendPacket(serverPlayer, new PlayerInventorySlotUpdateS2CPacket(serverPlayer.inventory.selectedSlot, stack));
 		}
 	}
 }

@@ -3,31 +3,30 @@ package org.dimdev.dimdoors.block.entity;
 import java.util.Optional;
 
 import net.minecraft.block.Block;
-import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.math.EulerAngle;
-import org.dimdev.dimdoors.DimensionalDoorsInitializer;
-import org.dimdev.dimdoors.block.CoordinateTransformerBlock;
-import org.dimdev.dimdoors.util.TeleportUtil;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.HorizontalFacingBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.EulerAngle;
 import net.minecraft.util.math.Vec3d;
+
+import org.dimdev.dimdoors.DimensionalDoorsInitializer;
+import org.dimdev.dimdoors.block.CoordinateTransformerBlock;
+import org.dimdev.dimdoors.util.TeleportUtil;
 import org.dimdev.dimdoors.util.math.TransformationMatrix3d;
 
 public class EntranceRiftBlockEntity extends RiftBlockEntity {
-	public EntranceRiftBlockEntity(BlockPos pos, BlockState state) {
-		super(ModBlockEntityTypes.ENTRANCE_RIFT, pos, state);
+	public EntranceRiftBlockEntity() {
+		super(ModBlockEntityTypes.ENTRANCE_RIFT);
 	}
 
 	@Override
-	public void fromTag(CompoundTag nbt) {
-		super.fromTag(nbt);
+	public void fromTag(BlockState state, CompoundTag nbt) {
+		super.fromTag(state, nbt);
 	}
 
 	@Override
@@ -76,7 +75,7 @@ public class EntranceRiftBlockEntity extends RiftBlockEntity {
 		entity = TeleportUtil.teleport(entity, this.world, targetPos, relativeAngle, relativeVelocity);
 		if (entity instanceof ServerPlayerEntity) {
 			ServerPlayerEntity player = (ServerPlayerEntity) entity;
-			player.networkHandler.sendPacket(new EntityVelocityUpdateS2CPacket(player.getId(), relativeVelocity));
+			player.networkHandler.sendPacket(new EntityVelocityUpdateS2CPacket(player.getEntityId(), relativeVelocity));
 		}
 
 		return true;

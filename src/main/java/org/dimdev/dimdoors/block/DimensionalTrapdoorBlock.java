@@ -35,8 +35,8 @@ public class DimensionalTrapdoorBlock extends TrapdoorBlock implements RiftProvi
 
 	@Nullable
 	@Override
-	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-		return new EntranceRiftBlockEntity(pos, state);
+	public BlockEntity createBlockEntity(BlockView world) {
+		return new EntranceRiftBlockEntity();
 	}
 
 	@Override

@@ -2,25 +2,25 @@ package org.dimdev.dimdoors.rift.targets;
 
 import java.util.UUID;
 
-import net.minecraft.util.math.EulerAngle;
-import net.minecraft.util.math.Vec3d;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.dimdev.dimdoors.pockets.PocketGenerator;
-import org.dimdev.dimdoors.util.EntityUtils;
-import org.dimdev.dimdoors.util.Location;
-import org.dimdev.dimdoors.util.RGBA;
-import org.dimdev.dimdoors.world.level.DimensionalRegistry;
-import org.dimdev.dimdoors.world.pocket.type.Pocket;
-import org.dimdev.dimdoors.world.pocket.VirtualLocation;
 
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
+import net.minecraft.util.math.EulerAngle;
+import net.minecraft.util.math.Vec3d;
+
+import org.dimdev.dimdoors.pockets.PocketGenerator;
+import org.dimdev.dimdoors.util.EntityUtils;
+import org.dimdev.dimdoors.util.Location;
+import org.dimdev.dimdoors.util.RGBA;
+import org.dimdev.dimdoors.world.level.DimensionalRegistry;
+import org.dimdev.dimdoors.world.pocket.VirtualLocation;
+import org.dimdev.dimdoors.world.pocket.type.Pocket;
 import org.dimdev.dimdoors.world.pocket.type.PrivatePocket;
-import org.dimdev.dimdoors.world.pocket.type.addon.DyeableAddon;
 
 public class PrivatePocketTarget extends VirtualTarget implements EntityTarget {
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -75,7 +75,7 @@ public class PrivatePocketTarget extends VirtualTarget implements EntityTarget {
 
 			if (item instanceof DyeItem) {
 				if (pocket.addDye(EntityUtils.getOwner(entity), ((DyeItem) item).getColor())) {
-					entity.remove(Entity.RemovalReason.DISCARDED);
+					entity.remove();
 				} else {
 					((EntityTarget) blockEntity).receiveEntity(entity, relativePos, relativeAngle, relativeVelocity);
 				}
