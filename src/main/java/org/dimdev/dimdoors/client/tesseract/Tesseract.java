@@ -3,6 +3,7 @@ package org.dimdev.dimdoors.client.tesseract;
 import com.flowpowered.math.vector.Vector4f;
 import org.dimdev.dimdoors.util.RGBA;
 
+import net.minecraft.client.render.BufferVertexConsumer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.util.math.Matrix4f;
 
@@ -184,9 +185,9 @@ public class Tesseract {
     }
 
     @Environment(EnvType.CLIENT)
-    public void draw(Matrix4f model, VertexConsumer vc, RGBA color, double radian) {
+    public void draw(BufferVertexConsumer vc, RGBA color, double radian) {
         for (Plane plane : this.planes) {
-            plane.draw(model, vc, color, radian);
+            plane.draw(vc, color, radian);
         }
     }
 }

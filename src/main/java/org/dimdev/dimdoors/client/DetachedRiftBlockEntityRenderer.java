@@ -9,6 +9,7 @@ import org.dimdev.dimdoors.block.entity.RiftBlockEntity;
 import org.dimdev.dimdoors.client.tesseract.Tesseract;
 import org.dimdev.dimdoors.util.RGBA;
 
+import net.minecraft.client.render.BufferVertexConsumer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -17,6 +18,8 @@ import net.minecraft.util.Identifier;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import static com.flowpowered.math.TrigMath.cos;
+import static com.flowpowered.math.TrigMath.sin;
 
 @Environment(EnvType.CLIENT)
 public class DetachedRiftBlockEntityRenderer implements BlockEntityRenderer<DetachedRiftBlockEntity> {
@@ -29,15 +32,15 @@ public class DetachedRiftBlockEntityRenderer implements BlockEntityRenderer<Deta
     @Override
     public void render(DetachedRiftBlockEntity rift, float tickDelta, MatrixStack matrices, VertexConsumerProvider vcs, int breakProgress, int alpha) {
     	if (DimensionalDoorsInitializer.getConfig().getGraphicsConfig().showRiftCore) {
-            this.renderTesseract(vcs.getBuffer(MyRenderLayer.TESSERACT), rift, matrices, tickDelta);
+            this.renderTesseract(vcs.getBuffer(ModRenderLayers.TESSERACT), rift, matrices, tickDelta);
         } else {
             long timeLeft = RiftBlockEntity.showRiftCoreUntil - System.currentTimeMillis();
             if (timeLeft >= 0) {
-                this.renderTesseract(vcs.getBuffer(MyRenderLayer.TESSERACT), rift, matrices, tickDelta);
+                this.renderTesseract(vcs.getBuffer(ModRenderLayers.TESSERACT), rift, matrices, tickDelta);
             }
         }
 
-//        this.renderCrack(vcs.getBuffer(MyRenderLayer.CRACK), matrices, rift); TODO
+//        this.renderCrack(vcs.getBuffer(ModRenderLayers.CRACK), matrices, rift); TODO
     }
 
     private void renderCrack(VertexConsumer vc, MatrixStack matrices, DetachedRiftBlockEntity rift) {
@@ -48,7 +51,20 @@ public class DetachedRiftBlockEntityRenderer implements BlockEntityRenderer<Deta
     }
 
     private void renderTesseract(VertexConsumer vc, DetachedRiftBlockEntity rift, MatrixStack matrices, float tickDelta) {
+        if(!(vc instanceof BufferVertexConsumer)) {
+            System.out.println("Fail");
+            return;
+        }
+
         double radian = this.nextAngle(rift, tickDelta) * TrigMath.DEG_TO_RAD;
+
+        ModShaders.getTesseractUniform().set(new float[]{
+                1, 0, 0, 0,
+                0, cos(radian), 0, sin(radian),
+                0, 0, 1, 0,
+                0, -sin(radian), 0, cos(radian)
+        });
+
         RGBA color = rift.getColor();
         if (Objects.equals(color, RGBA.NONE)) {
             color = DEFAULT_COLOR;
@@ -59,7 +75,7 @@ public class DetachedRiftBlockEntityRenderer implements BlockEntityRenderer<Deta
         matrices.translate(0.5, 0.5, 0.5);
         matrices.scale(0.25f, 0.25f, 0.25f);
 
-        TESSERACT.draw(matrices.peek().getModel(), vc, color, radian);
+        TESSERACT.draw((BufferVertexConsumer) vc, color, radian);
 
         matrices.pop();
     }

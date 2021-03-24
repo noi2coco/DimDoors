@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.class_5944;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
 import net.minecraft.resource.ResourceFactory;
 import net.minecraft.resource.ResourceManager;
 
@@ -27,6 +26,13 @@ public abstract class GameRendererMixin {
 
 	@Inject(method = "method_34538", at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/client/render/GameRenderer;method_34522(Lnet/minecraft/resource/ResourceFactory;Ljava/lang/String;Lnet/minecraft/client/render/VertexFormat;)Lnet/minecraft/class_5944;"))
 	public void onReload(ResourceManager resourceManager, CallbackInfo ci) throws IOException {
-		ModShaders.setDimensionalPortal(this.method_34522(resourceManager, "dimensional_portal", VertexFormats.POSITION));
+		ModShaders.init((s, vertexFormat) -> {
+			try {
+				return method_34522(resourceManager, s, vertexFormat);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+		});
 	}
 }

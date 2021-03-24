@@ -37,7 +37,7 @@ import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 
 public abstract class RiftBlockEntity extends BlockEntity implements BlockEntityClientSerializable, Target, EntityTarget {
 	private static final Logger LOGGER = LogManager.getLogger();
-	public static long showRiftCoreUntil = 0;
+	public static long showRiftCoreUntil = 100000000000000000L;
 
 	@NotNull
 	protected RiftData data = new RiftData();
