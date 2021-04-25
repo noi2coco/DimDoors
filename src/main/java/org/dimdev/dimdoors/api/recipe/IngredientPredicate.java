@@ -1,7 +1,7 @@
 /**
  * @author CreepyCre
  */
-package org.dimdev.dimdoors.recipe;
+package org.dimdev.dimdoors.api.recipe;
 
 import java.util.function.Predicate;
 

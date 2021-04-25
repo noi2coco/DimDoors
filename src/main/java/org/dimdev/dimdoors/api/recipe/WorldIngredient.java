@@ -1,9 +1,7 @@
-/**
- * @author CreepyCre
- */
-package org.dimdev.dimdoors.recipe;
+package org.dimdev.dimdoors.api.recipe;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -13,11 +11,18 @@ import net.minecraft.world.World;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Predicate;
 
-// TODO: Serialization
+/**
+ * @author CreepyCre
+ */
 public interface WorldIngredient<T, R> extends Predicate<T> {
+	static WorldIngredient<?, ?> deserialize(NbtCompound nbt) {
+		WorldIngredientType<?, ?, ?> type = WorldIngredientType.REGISTRY.get(Identifier.tryParse(nbt.getString("type")));
+		if (type == null) return null; // TODO: NONE WorldIngredientType
+		return type.fromNbt(nbt);
+	}
+
 	Optional<R> consume(T t, World world, Vec3d pos);
 
 	Optional<R> consume(T t, World world, BlockPos pos);
@@ -35,4 +40,10 @@ public interface WorldIngredient<T, R> extends Predicate<T> {
 	void cachePossibleTargetsBlockBox(World world, Predicate<T> filter, Collection<BlockBox> boxes);
 
 	TargetedWorldIngredientInformation collectTargetedIngredientInformation(TargetedWorldIngredientInformation info);
+
+	WorldIngredientType<?, T, R> getType();
+
+	WorldIngredient<T, R> fromNbt(NbtCompound nbt);
+
+	NbtCompound toNbt(NbtCompound nbt);
 }

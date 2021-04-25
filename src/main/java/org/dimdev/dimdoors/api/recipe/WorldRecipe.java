@@ -1,5 +1,6 @@
-package org.dimdev.dimdoors.recipe;
+package org.dimdev.dimdoors.api.recipe;
 
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -23,5 +24,9 @@ public interface WorldRecipe<T> {
 
 	Identifier getId();
 
-	WorldRecipeType<?> getType();
+	WorldRecipeType<?, T> getType();
+
+	WorldRecipe<T> fromNbt(NbtCompound nbt);
+
+	NbtCompound toNbt(NbtCompound nbt);
 }
