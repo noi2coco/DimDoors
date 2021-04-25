@@ -1,4 +1,4 @@
-package org.dimdev.dimdoors.recipe;
+package org.dimdev.dimdoors.api.recipe;
 
 public class TargetedWorldIngredientInformation {
 }

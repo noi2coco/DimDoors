@@ -1,10 +1,9 @@
 /**
  * @author CreepyCre
  */
-package org.dimdev.dimdoors.recipe;
+package org.dimdev.dimdoors.api.recipe;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -19,16 +18,16 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 // TODO: Serialization
-public class BlockStateIngredient<R> implements WorldIngredient<BlockState, R> {
+public class BlockStateIngredient implements WorldIngredient<BlockState, BlockState> {
 	private IngredientPredicate<BlockState> testIngredient;
-	private TriFunction<BlockState, World, BlockPos, Optional<R>> transformIngredient;
+	private TriFunction<BlockState, World, BlockPos, Optional<BlockState>> transformIngredient;
 
-	public Optional<R> consume(BlockState state, World world, Vec3d pos) {
+	public Optional<BlockState> consume(BlockState state, World world, Vec3d pos) {
 		return consume(state, world, new BlockPos(pos));
 	}
 
 	@Override
-	public Optional<R> consume(BlockState state, World world, BlockPos pos) {
+	public Optional<BlockState> consume(BlockState state, World world, BlockPos pos) {
 		return transformIngredient.apply(state, world, pos);
 	}
 

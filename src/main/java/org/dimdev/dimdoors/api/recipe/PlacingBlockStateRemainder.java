@@ -1,4 +1,4 @@
-package org.dimdev.dimdoors.recipe;
+package org.dimdev.dimdoors.api.recipe;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
