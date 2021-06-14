@@ -5,7 +5,7 @@
 [![Build Status](https://api.travis-ci.org/DimensionalDevelopment/DimDoors.svg)](https://travis-ci.org/DimensionalDevelopment/DimDoors/builds)
 
 ## Overview
-This is the main repository for the rewrite of Dimensional Doors by StevenRS11. This repository contains the up-to-date code base and commits submitted.
+This is the main repository for the rewrite of Dimensional Doors by StevenRS11 for 1.16.5+. This repository contains the up-to-date code base and commits submitted.
 
 ## Discord Server
 For the main bits, we have a Discord server made specifically for talking about Dimensional Doors. It's also the place where the devs meet to discuss current progress on certain aspects, and get feedback from the team.
