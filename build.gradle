@@ -1,5 +1,5 @@
 plugins {
-    id "fabric-loom" version "0.5-SNAPSHOT"
+    id "fabric-loom" version "0.7-SNAPSHOT"
 	id "maven-publish"
 }
 
@@ -10,6 +10,10 @@ targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
+
+	maven {
+		url 'https://jitpack.io'
+	}
 
 	maven {
 		name = "Fabric maven"
@@ -48,7 +52,7 @@ repositories {
 
 	maven {
 		name = "Ladysnake Libs"
-		url = "https://dl.bintray.com/ladysnake/libs"
+		url = "https://ladysnake.jfrog.io/artifactory/mods"
 	}
 
 	maven {
@@ -57,6 +61,11 @@ repositories {
 		content {
 			includeGroup "mcp.mobius.waila"
 		}
+	}
+
+	maven {
+		name = "shedaniel maven"
+		url "https://maven.shedaniel.me/"
 	}
 }
 
@@ -95,10 +104,10 @@ dependencies {
 	includeCompile("org.jgrapht", "jgrapht-core", "1.1.0")
 	includeCompile("com.github.DimensionalDevelopment", "poly2tri.java", "0.1.1")
 	includeCompile("com.github.Waterpicker", "OpenWorlds", "c5a1ced")
-	includeCompile("io.github.boogiemonster1o1", "libcbe", "1.1.0")
+	includeCompile("com.github.BoogieMonster1O1", "libcbe", "1.1.2-dev")
 	includeCompile("io.github.cottonmc", "LibGui", "3.3.2+1.16.4")
 	includeCompile("me.shedaniel.cloth", "config-2", "4.8.3")
-	includeCompile("io.github.onyxstudios", "Cardinal-Components-API", "2.7.10")
+	includeCompile("io.github.onyxstudios", "Cardinal-Components-API", "2.7.12")
 	includeCompile("me.sargunvohra.mcmods", "autoconfig1u", "3.3.1")
 
 	modRuntime "curse.maven:Worldedit-225608:3039223" // For saving schematics
